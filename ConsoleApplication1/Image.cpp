@@ -43,5 +43,9 @@ int Image::getPixel (int posX, int posY, int canalRGB){
 
 void Image::setPixel (int posX, int posY, int canalRGB, int value){
 
+<<<<<<< HEAD
 	img(posX, posY, canalRGB) = value;
+=======
+	img(posX, posY, 0, canalRGB) = value;
+>>>>>>> 08b380f5b81cd900f6dd453fd129593fa54f6d6d
 }
