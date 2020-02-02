@@ -33,7 +33,7 @@ Image Image::operator=(const Image & image)
 
 void Image::saveFile(const char* filename)
 {
-	img.save("barbara_croped.bmp");
+	img.save(filename);
 }
 
 int Image::getPixel (int posX, int posY, int canalRGB){
@@ -43,5 +43,5 @@ int Image::getPixel (int posX, int posY, int canalRGB){
 
 void Image::setPixel (int posX, int posY, int canalRGB, int value){
 
-	img(posX, posY, 0, canalRGB) = value;
+	img(posX, posY, canalRGB) = value;
 }

@@ -46,7 +46,7 @@ void datasetCreation() {
 int main() {
 
 
-	Image InitialImage = Image("barbara.bmp");
+	Image InitialImage("barbara.bmp");
 	Image tst(200, 200);
 	Traitement::croping(tst, InitialImage, 200, 200, 200, 200);
 	tst.saveFile("cropedBarbara.bmp");
