@@ -20,6 +20,7 @@ class Image
 		Image(const Image &copy);
 		Image(int X, int Y);
 		Image(const char* const filename);
+		Image(CImg<unsigned char> uneImg);
 		Image operator= (const Image &image);
 		void saveFile(const char* const filename);
 		int getPixel (int posX, int posY, int canalRGB);
@@ -27,7 +28,6 @@ class Image
 
 		int getXsize() const;
 		int getYsize() const;
-
 		vector<vector<int>> getHisto() const;
 		void refreshHisto();
 		

@@ -8,7 +8,17 @@ Image::~Image()
 Image::Image() {
 	img = CImg<unsigned char>(100, 100, 1, 3, 0);
 
-	histo.resize(3, std::vector<int>(16, 0));
+	
+
+	refreshHisto();
+
+}
+
+Image::Image(CImg<unsigned char> uneImg) {
+
+	img = uneImg;
+
+	
 
 	refreshHisto();
 
@@ -17,9 +27,8 @@ Image::Image() {
 Image::Image(const Image & copy)
 {
 	//TODO
-	img = CImg<unsigned char>(100, 100, 1, 3, 0);
+	img = copy.img;
 
-	histo.resize(3, std::vector<int>(16, 0));
 
 	refreshHisto();
 }
@@ -28,7 +37,7 @@ Image::Image(int X, int Y) {
 	
 	img = CImg<unsigned char>(X, Y, 1, 3, 0);
 
-	histo.resize(3, std::vector<int>(16, 0));
+	
 
 	refreshHisto();
 }
@@ -37,7 +46,7 @@ Image::Image(const char* const filename) {
 	
 	img = CImg<unsigned char>(filename);
 
-	histo.resize(3, std::vector<int>(16, 0));
+	
 
 	refreshHisto();
 }
@@ -83,6 +92,8 @@ vector<vector<int>> Image::getHisto() const {
 }
 
 void Image::refreshHisto() {
+
+	histo.resize(3, std::vector<int>(16, 0));
 
 	for (int i = 0; i < getXsize(); i = i + 1) {
 

@@ -10,11 +10,15 @@ void Traitement::croping(Image& To, Image& From, int startX, int startY, int len
 	int j = 0;
 	for (int x = startX; x < startX + length; x++)
 	{
-		for (int y = startY; y < startY + length; y++)
+		for (int y = startY; y < startY + height; y++)
 		{
-			To.setPixel(i, j, 0, From.getPixel(x, y, 0));
-			To.setPixel(i, j, 1, From.getPixel(x, y, 1));
-			To.setPixel(i, j, 2, From.getPixel(x, y, 2));
+
+			if (x < From.getXsize() && y < From.getYsize()) {
+				To.setPixel(i, j, 0, From.getPixel(x, y, 0));
+				To.setPixel(i, j, 1, From.getPixel(x, y, 1));
+				To.setPixel(i, j, 2, From.getPixel(x, y, 2));
+			}
+			
 			
 			j++;
 			
@@ -24,8 +28,7 @@ void Traitement::croping(Image& To, Image& From, int startX, int startY, int len
 	}
 
 	To.refreshHisto();
-	
-	
+
 
 }
 
@@ -63,9 +66,10 @@ int Traitement::diffHisto(Image& image1, Image& image2) {
 
 		for (int y = 0; y < 16; y = y + 1) {
 
-			compteur = compteur + abs(histo1[0][y] - histo2[0][y])
+			 compteur = compteur + abs(histo1[0][y] - histo2[0][y])
 								+ abs(histo1[1][y] - histo2[1][y])
 								+ abs(histo1[2][y] - histo2[2][y]);
+
 
 		}
 
@@ -93,5 +97,63 @@ void Traitement::resize(Image& to, Image& from) {
 	}
 
 	to.refreshHisto();
+
+}
+
+void Traitement::initPuzzleList(vector<Image>& puzzle, Image imageInitiale) {
+
+	int x = imageInitiale.getXsize();
+	int y = imageInitiale.getYsize();
+
+	int pasX = puzzle[0].getXsize();
+	int pasY = puzzle[0].getYsize();
+
+	int v = 0;
+
+
+		for (int z = 0; z < x; z = z + pasX) {
+
+			for (int o = 0; o < y; o = o + pasY) {
+
+
+				if (v < puzzle.size() &&  (o + pasY) <= y) {
+
+					Traitement::croping(puzzle[v], imageInitiale, z, o, pasX, pasY);
+
+					std::string tmp = "./testPuzzle/puzzle" + std::to_string(v) + ".bmp";
+					puzzle[v].saveFile(tmp.c_str());
+
+					v = v + 1;
+
+				}
+					
+
+			}
+
+
+		}
+
+
+}
+
+int Traitement::bestMatch(vector<Image> dataSet, Image imageToTest) {
+
+	int min = Traitement::diffHisto(dataSet[0], imageToTest);
+
+	int index = 0;
+
+	for (int i = 1; i < dataSet.size(); i = i + 1) {
+
+		if (Traitement::diffHisto(dataSet[i], imageToTest) < min) {
+			min = Traitement::diffHisto(dataSet[i], imageToTest);
+
+			index = i;
+		}
+
+	}
+
+	std::cout << "bestMatch : " << min << " index : " << to_string(index) << std::endl;
+
+	return index;
 
 }

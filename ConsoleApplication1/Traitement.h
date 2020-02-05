@@ -9,6 +9,8 @@ class Traitement
 		static int diffVal(Image& image1, Image& image2);
 		static int diffHisto(Image& image1, Image& image2);
 		static void resize(Image& to, Image& from);
+		static void initPuzzleList(vector<Image>& puzzle, Image imageInitiale);
+		static int bestMatch(vector<Image> dataSet, Image imageToTest);
 
 		
 
