@@ -65,7 +65,7 @@ void initDataSetList(vector<Image>& dataSet, int sizeX, int sizeY) {
 
 				std::string tmp = "./images/dataSet" + std::to_string(i) + ".bmp";
 				dataSet[i].saveFile(tmp.c_str());
-				dataSet[i].refreshHisto();
+				dataSet[i].refreshHisto(100);
 				
 				i++;
 			}
@@ -80,7 +80,7 @@ int main() {
 
 
 	//Image que l'on veut traiter
-	Image InitialImage("unknown.bmp");
+	Image InitialImage("chat.bmp");
 
 	//nb de ligne et de colonnes
 	int ligne = 150;
@@ -130,6 +130,7 @@ int main() {
 
 	//Traitement::bestMatch(dataSet, PuzzleImageInitiale[27]);
 
+	//Création du patchwork
 	Traitement::drawPatchwork(patchworkList, InitialImage);
 
 	

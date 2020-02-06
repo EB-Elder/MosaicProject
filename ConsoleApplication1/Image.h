@@ -29,7 +29,7 @@ class Image
 		int getXsize() const;
 		int getYsize() const;
 		vector<vector<int>> getHisto() const;
-		void refreshHisto();
+		void refreshHisto(int sensibilite);
 		
 };
 

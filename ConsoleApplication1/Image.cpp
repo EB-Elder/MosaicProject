@@ -10,7 +10,7 @@ Image::Image() {
 
 	
 
-	refreshHisto();
+	refreshHisto(100);
 
 }
 
@@ -20,7 +20,7 @@ Image::Image(CImg<unsigned char> uneImg) {
 
 	
 
-	refreshHisto();
+	refreshHisto(100);
 
 }
 
@@ -30,7 +30,7 @@ Image::Image(const Image & copy)
 	img = copy.img;
 
 
-	refreshHisto();
+	refreshHisto(100);
 }
 
 Image::Image(int X, int Y) {
@@ -39,7 +39,7 @@ Image::Image(int X, int Y) {
 
 	
 
-	refreshHisto();
+	refreshHisto(100);
 }
 
 Image::Image(const char* const filename) {
@@ -48,7 +48,7 @@ Image::Image(const char* const filename) {
 
 	
 
-	refreshHisto();
+	refreshHisto(100);
 }
 
 Image Image::operator=(const Image & image)
@@ -91,11 +91,11 @@ vector<vector<int>> Image::getHisto() const {
 
 }
 
-void Image::refreshHisto() {
+void Image::refreshHisto(int sensibilite) {
 
-	histo.resize(3, std::vector<int>(16, 0));
+	histo.resize(3, std::vector<int>(sensibilite, 0));
 
-	for (int i = 0; i < 16; i = i + 1) {
+	for (int i = 0; i < 25; i = i + 1) {
 
 		histo[0][i] = 0;
 		histo[1][i] = 0;
@@ -107,9 +107,9 @@ void Image::refreshHisto() {
 
 		for (int y = 0; y < getYsize(); y = y + 1) {
 
-			histo[0][getPixel(i, y, 0) / 16] = histo[0][getPixel(i, y, 0) / 16] + 1;
-			histo[1][getPixel(i, y, 1) / 16] = histo[0][getPixel(i, y, 1) / 16] + 1;
-			histo[2][getPixel(i, y, 2) / 16] = histo[0][getPixel(i, y, 2) / 16] + 1;
+			histo[0][getPixel(i, y, 0) / sensibilite] = histo[0][getPixel(i, y, 0) / sensibilite] + 1;
+			histo[1][getPixel(i, y, 1) / sensibilite] = histo[0][getPixel(i, y, 1) / sensibilite] + 1;
+			histo[2][getPixel(i, y, 2) / sensibilite] = histo[0][getPixel(i, y, 2) / sensibilite] + 1;
 
 
 		}

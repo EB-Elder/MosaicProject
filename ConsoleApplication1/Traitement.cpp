@@ -27,7 +27,7 @@ void Traitement::croping(Image& To, Image& From, int startX, int startY, int len
 		i++;
 	}
 
-	To.refreshHisto();
+	To.refreshHisto(100);
 
 
 }
@@ -96,7 +96,7 @@ void Traitement::resize(Image& to, Image& from) {
 		}
 	}
 
-	to.refreshHisto();
+	to.refreshHisto(200);
 
 }
 
@@ -176,7 +176,7 @@ void Traitement::initPatchworkList(vector<Image>& dataSet, vector<Image>& puzzle
 			}
 		}
 
-		patchWorkList[i].refreshHisto();
+		patchWorkList[i].refreshHisto(200);
 
 		std::string tmp = "./patchworkCrop/patch" + std::to_string(i) + ".bmp";
 		patchWorkList[i].saveFile(tmp.c_str());
@@ -240,7 +240,7 @@ void Traitement::drawPatchwork(vector<Image>& patchworkList, Image patchwork) {
 
 	std::cout << to_string(v) << " des " << to_string(patchworkList.size()) << " images ont ete utilisee" << std::endl;
 
-	patchwork.refreshHisto();
+	patchwork.refreshHisto(100);
 	std::string tmp = "./Patchwork/Patchwork.bmp";
 	patchwork.saveFile(tmp.c_str());
 
