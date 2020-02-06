@@ -157,3 +157,94 @@ int Traitement::bestMatch(vector<Image> dataSet, Image imageToTest) {
 	return index;
 
 }
+
+void Traitement::initPatchworkList(vector<Image>& dataSet, vector<Image>& puzzleList, vector<Image>& patchWorkList) {
+
+	for (int i = 0; i < puzzleList.size(); i = i + 1) {
+
+		int index = Traitement::bestMatch(dataSet, puzzleList[i]);
+
+		
+		for (int y = 0; y < patchWorkList[i].getXsize(); y = y + 1) {
+
+			for (int o = 0; o < patchWorkList[i].getYsize(); o = o + 1) {
+
+				patchWorkList[i].setPixel(y, o, 0, dataSet[index].getPixel(y, o, 0));
+				patchWorkList[i].setPixel(y, o, 1, dataSet[index].getPixel(y, o, 1));
+				patchWorkList[i].setPixel(y, o, 2, dataSet[index].getPixel(y, o, 2));
+
+			}
+		}
+
+		patchWorkList[i].refreshHisto();
+
+		std::string tmp = "./patchworkCrop/patch" + std::to_string(i) + ".bmp";
+		patchWorkList[i].saveFile(tmp.c_str());
+
+	}
+
+}
+
+
+void Traitement::drawPatchwork(vector<Image>& patchworkList, Image patchwork) {
+
+
+
+	int x = patchwork.getXsize();
+	int y = patchwork.getYsize();
+
+	int pasX = patchworkList[0].getXsize();
+	int pasY = patchworkList[0].getYsize();
+
+	int v = 0;
+
+	int m = 0;
+	int p = 0;
+
+
+
+	for (int z = 0; z < x; z = z + pasX) {
+
+		for (int o = 0; o < y; o = o + pasY) {
+
+			
+			if (v < patchworkList.size() && (o + pasY) <= y) {
+				m = 0;
+				p = 0;
+				for (int w = z; w < z + pasX; w = w + 1) {
+
+
+					for (int l = o; l < o + pasY; l = l + 1) {
+
+						patchwork.setPixel(w, l, 0, patchworkList[v].getPixel(m, p, 0));
+						patchwork.setPixel(w, l, 1, patchworkList[v].getPixel(m, p, 1));
+						patchwork.setPixel(w, l, 2, patchworkList[v].getPixel(m, p, 2));
+				
+						p = p + 1;
+
+					}
+					p = 0;
+					m = m + 1;
+
+				}
+
+				v = v + 1;
+
+			}
+
+
+		}
+
+
+	}
+
+	std::cout << to_string(v) << " des " << to_string(patchworkList.size()) << " images ont ete utilisee" << std::endl;
+
+	patchwork.refreshHisto();
+	std::string tmp = "./Patchwork/Patchwork.bmp";
+	patchwork.saveFile(tmp.c_str());
+
+
+
+}
+

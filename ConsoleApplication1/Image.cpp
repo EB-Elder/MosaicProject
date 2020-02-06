@@ -26,7 +26,7 @@ Image::Image(CImg<unsigned char> uneImg) {
 
 Image::Image(const Image & copy)
 {
-	//TODO
+
 	img = copy.img;
 
 
@@ -94,6 +94,14 @@ vector<vector<int>> Image::getHisto() const {
 void Image::refreshHisto() {
 
 	histo.resize(3, std::vector<int>(16, 0));
+
+	for (int i = 0; i < 16; i = i + 1) {
+
+		histo[0][i] = 0;
+		histo[1][i] = 0;
+		histo[2][i] = 0;
+
+	}
 
 	for (int i = 0; i < getXsize(); i = i + 1) {
 

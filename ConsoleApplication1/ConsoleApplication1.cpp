@@ -6,7 +6,8 @@
 #include "Traitement.h"
 #include "Image.h"
 #include <iostream> 
-#include <vector>  
+#include <vector>
+#include <math.h>
 
 
 using namespace cimg_library;
@@ -79,19 +80,25 @@ int main() {
 
 
 	//Image que l'on veut traiter
-	Image InitialImage("resized_barbara_croped.bmp");
+	Image InitialImage("unknown.bmp");
 
 	//nb de ligne et de colonnes
-	int ligne = 9;
-	int colonne = 6;
+	int ligne = 150;
+	int colonne = 150;
 
 	//Création du dataset
-	vector<Image> dataSet(64, Image(InitialImage.getXsize() / ligne, InitialImage.getYsize() / colonne));
-	initDataSetList(dataSet, InitialImage.getXsize() / ligne, InitialImage.getYsize() / colonne);
+	vector<Image> dataSet(64, Image(ceil(float(InitialImage.getXsize()) / colonne), ceil(float(InitialImage.getYsize()) / ligne)));
+	initDataSetList(dataSet, ceil(InitialImage.getXsize() / float(colonne)), ceil(InitialImage.getYsize() / float(ligne)));
+
 
 	//Création de la liste qui va contenir les images cropée et redimensionnée de l'image initiale 
-	vector<Image> PuzzleImageInitiale(ligne*colonne, Image(InitialImage.getXsize()/ligne, InitialImage.getYsize()/colonne));
+	vector<Image> PuzzleImageInitiale(ligne*colonne, Image(ceil(InitialImage.getXsize()/float(colonne)), ceil(InitialImage.getYsize()/float(ligne))));
 	Traitement::initPuzzleList(PuzzleImageInitiale, InitialImage);
+
+	//Création de la liste contenant les images du patchwork
+	vector<Image> patchworkList(ligne * colonne, Image(ceil(InitialImage.getXsize() / float(colonne)), ceil(InitialImage.getYsize() / float(ligne))));
+	Traitement::initPatchworkList(dataSet, PuzzleImageInitiale, patchworkList);
+	
 
 	/*for (int i = 0; i < dataSet.size(); i = i + 1) {
 		dataSet[i].refreshHisto();
@@ -121,7 +128,11 @@ int main() {
 	resised.saveFile("resized_barbara_croped.bmp");
 	resised2.saveFile("resized_barbara_croped2.bmp");*/
 
-	Traitement::bestMatch(dataSet, PuzzleImageInitiale[27]);
+	//Traitement::bestMatch(dataSet, PuzzleImageInitiale[27]);
+
+	Traitement::drawPatchwork(patchworkList, InitialImage);
+
+	
 	
 	return 0;
 }

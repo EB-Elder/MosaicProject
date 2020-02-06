@@ -11,6 +11,8 @@ class Traitement
 		static void resize(Image& to, Image& from);
 		static void initPuzzleList(vector<Image>& puzzle, Image imageInitiale);
 		static int bestMatch(vector<Image> dataSet, Image imageToTest);
+		static void initPatchworkList(vector<Image>& dataSet, vector<Image>& puzzleList, vector<Image>& patchWorkList);
+		static void drawPatchwork(vector<Image>& patchworkList, Image patchwork);
 
 		
 
