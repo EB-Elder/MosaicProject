@@ -10,7 +10,7 @@ Image::Image() {
 
 	
 
-	refreshHisto(100);
+	refreshHisto(PRECISION);
 
 }
 
@@ -20,7 +20,7 @@ Image::Image(CImg<unsigned char> uneImg) {
 
 	
 
-	refreshHisto(100);
+	refreshHisto(PRECISION);
 
 }
 
@@ -30,7 +30,7 @@ Image::Image(const Image & copy)
 	img = copy.img;
 
 
-	refreshHisto(100);
+	refreshHisto(PRECISION);
 }
 
 Image::Image(int X, int Y) {

@@ -1,5 +1,4 @@
 // ConsoleApplication1.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
-//
 #include <iostream>
 #include <string>
 #include "../lib/CImg-2.8.3/CImg.h"
@@ -42,6 +41,8 @@ void datasetCreation(int heigth, int length) {
 	}
 }
 
+
+//fonction permettant de créer un dataset et de l'enregistrer dans une liste d'Image
 void initDataSetList(vector<Image>& dataSet, int sizeX, int sizeY) {
 
 
@@ -65,7 +66,7 @@ void initDataSetList(vector<Image>& dataSet, int sizeX, int sizeY) {
 
 				std::string tmp = "./images/dataSet" + std::to_string(i) + ".bmp";
 				dataSet[i].saveFile(tmp.c_str());
-				dataSet[i].refreshHisto(100);
+				dataSet[i].refreshHisto(PRECISION);
 				
 				i++;
 			}
@@ -79,14 +80,14 @@ void initDataSetList(vector<Image>& dataSet, int sizeX, int sizeY) {
 int main() {
 
 
-	//Image que l'on veut traiter
-	Image InitialImage("chat.bmp");
+	//Image de base que l'on veut traiter
+	Image InitialImage("unknown.bmp");
 
 	//nb de ligne et de colonnes
 	int ligne = 150;
 	int colonne = 150;
 
-	//Création du dataset
+	//Création du dataset et découpage des images du dataset à la taille adéquate
 	vector<Image> dataSet(64, Image(ceil(float(InitialImage.getXsize()) / colonne), ceil(float(InitialImage.getYsize()) / ligne)));
 	initDataSetList(dataSet, ceil(InitialImage.getXsize() / float(colonne)), ceil(InitialImage.getYsize() / float(ligne)));
 
@@ -95,42 +96,14 @@ int main() {
 	vector<Image> PuzzleImageInitiale(ligne*colonne, Image(ceil(InitialImage.getXsize()/float(colonne)), ceil(InitialImage.getYsize()/float(ligne))));
 	Traitement::initPuzzleList(PuzzleImageInitiale, InitialImage);
 
-	//Création de la liste contenant les images du patchwork
+	//Création de la liste contenant les images du patchwork. Chaque portion provient du patchwork. Les image sont de bonnes dimensions
+	//à partir de là il ne reste plus qu'à assembler le tout dans une seule image pour avoir notre patchwork.
 	vector<Image> patchworkList(ligne * colonne, Image(ceil(InitialImage.getXsize() / float(colonne)), ceil(InitialImage.getYsize() / float(ligne))));
 	Traitement::initPatchworkList(dataSet, PuzzleImageInitiale, patchworkList);
-	
 
-	/*for (int i = 0; i < dataSet.size(); i = i + 1) {
-		dataSet[i].refreshHisto();
-	}
-
-	for (int i = 0; i < PuzzleImageInitiale.size(); i = i + 1) {
-
-		PuzzleImageInitiale[i].refreshHisto();
-
-	}*/
-
-
-
-	
-	/*Image InitialImage("resized_barbara_croped.bmp");
-	Image tigreImage("resized_barbara_croped.bmp");
-	Image resised(500, 500);
-	Traitement::resize(resised, InitialImage);
-
-
-
-	Image tst2(InitialImage.getXsize(), InitialImage.getYsize());
-	
-
-	std::cout << "Affiche width : " << resize.getXsize() << " affichage height : " << resize.getYsize() << std::endl;
-
-	resised.saveFile("resized_barbara_croped.bmp");
-	resised2.saveFile("resized_barbara_croped2.bmp");*/
-
-	//Traitement::bestMatch(dataSet, PuzzleImageInitiale[27]);
 
 	//Création du patchwork
+	//assemblage des images de la liste 
 	Traitement::drawPatchwork(patchworkList, InitialImage);
 
 	

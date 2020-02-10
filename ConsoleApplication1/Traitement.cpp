@@ -27,7 +27,7 @@ void Traitement::croping(Image& To, Image& From, int startX, int startY, int len
 		i++;
 	}
 
-	To.refreshHisto(100);
+	To.refreshHisto(PRECISION);
 
 
 }
@@ -240,7 +240,7 @@ void Traitement::drawPatchwork(vector<Image>& patchworkList, Image patchwork) {
 
 	std::cout << to_string(v) << " des " << to_string(patchworkList.size()) << " images ont ete utilisee" << std::endl;
 
-	patchwork.refreshHisto(100);
+	patchwork.refreshHisto(PRECISION);
 	std::string tmp = "./Patchwork/Patchwork.bmp";
 	patchwork.saveFile(tmp.c_str());
 
